@@ -31,6 +31,9 @@ public class mainFrom extends JFrame {
 	private JTextField User_Text;
 	private JTextField Text_Font_Size;
 	private JLabel lblNewLabel_1;
+	private JComboBox<String> FontStyle;
+	private JTextArea shower;
+	private JLabel imageShower;
 	
 	private FontImage FImage = new FontImage();
 	
@@ -84,7 +87,7 @@ public class mainFrom extends JFrame {
 		lblNewLabel_1.setBounds(37, 90, 73, 15);
 		contentPane.add(lblNewLabel_1);
 		
-		final JComboBox<String> FontStyle = new JComboBox<String>();
+		FontStyle = new JComboBox<String>();
 		FontStyle.setBounds(119, 136, 168, 25);
 		GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	    String[] fontNames = e.getAvailableFontFamilyNames();
@@ -98,11 +101,11 @@ public class mainFrom extends JFrame {
 		lblNewLabel_1_1.setBounds(37, 139, 73, 15);
 		contentPane.add(lblNewLabel_1_1);
 		
-		final JTextArea shower = new JTextArea();
+		shower = new JTextArea();
 		shower.setBounds(37, 179, 250, 97);
 		contentPane.add(shower);
 		
-		final JLabel imageShower = new JLabel("");
+	    imageShower = new JLabel("");
 		imageShower.setBounds(37, 354, 250, 86);
 		contentPane.add(imageShower);
 		
@@ -120,6 +123,7 @@ public class mainFrom extends JFrame {
 					FImage.createImage(Input_Srting, new Font((String) FontStyle.getSelectedItem(), Font.PLAIN, FontSize), new File("./a.png"), Input_String_realLength*(FontSize/2), FontSize);
 					ImageIcon imageIcon = new ImageIcon(FImage.getImage());
 					imageShower.setIcon(imageIcon);
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
