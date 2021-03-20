@@ -3,6 +3,7 @@ package com.brian.MatrixConversion;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.io.File;
 
 import javax.swing.JFrame;
@@ -16,6 +17,9 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DropMode;
+import javax.swing.JComboBox;
+import javax.swing.JTextPane;
+import javax.swing.JTextArea;
 
 public class mainFrom extends JFrame {
 
@@ -23,7 +27,6 @@ public class mainFrom extends JFrame {
 	private JTextField User_Text;
 	private JTextField Text_Font_Size;
 	private JLabel lblNewLabel_1;
-	private JTextField shower;
 
 	/**
 	 * Launch the application.
@@ -62,7 +65,7 @@ public class mainFrom extends JFrame {
 		contentPane.setLayout(null);
 		
 		User_Text = new JTextField();
-		User_Text.setBounds(120, 36, 96, 21);
+		User_Text.setBounds(120, 36, 167, 21);
 		User_Text.setFont(new Font("新細明體", Font.PLAIN, 12));
 		contentPane.add(User_Text);
 		User_Text.setColumns(10);
@@ -72,7 +75,7 @@ public class mainFrom extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		Text_Font_Size = new JTextField();
-		Text_Font_Size.setBounds(120, 87, 96, 21);
+		Text_Font_Size.setBounds(120, 87, 167, 21);
 		Text_Font_Size.setFont(new Font("新細明體", Font.PLAIN, 12));
 		Text_Font_Size.setColumns(10);
 		contentPane.add(Text_Font_Size);
@@ -81,8 +84,26 @@ public class mainFrom extends JFrame {
 		lblNewLabel_1.setBounds(37, 90, 73, 15);
 		contentPane.add(lblNewLabel_1);
 		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(66, 284, 87, 23);
+		final JComboBox FontStyle = new JComboBox();
+		FontStyle.setBounds(119, 136, 168, 25);
+		GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
+	    String[] fontNames = e.getAvailableFontFamilyNames();
+	    for (String fontName : fontNames) {
+	    	FontStyle.addItem(fontName);
+	    }
+		
+		contentPane.add(FontStyle);
+		
+		JLabel lblNewLabel_1_1 = new JLabel("字體");
+		lblNewLabel_1_1.setBounds(37, 139, 73, 15);
+		contentPane.add(lblNewLabel_1_1);
+		
+		final JTextArea shower = new JTextArea();
+		shower.setBounds(37, 179, 250, 97);
+		contentPane.add(shower);
+		
+		JButton btnNewButton = new JButton("生圖");
+		btnNewButton.setBounds(94, 302, 141, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String Input_Srting = User_Text.getText();
@@ -92,7 +113,7 @@ public class mainFrom extends JFrame {
 				shower.setText(shower.getText() + "Input_Srting length = " + Input_Srting.length() + "\n");
 				shower.setText(shower.getText() + "Input_Srting real length = " + Input_String_realLength + "\n");
 				try {
-					FontImage.createImage(Input_Srting, new Font("微软雅黑", Font.PLAIN, FontSize), new File("./a.png"), Input_String_realLength*(FontSize/2), FontSize+2);
+					FontImage.createImage(Input_Srting, new Font((String) FontStyle.getSelectedItem(), Font.PLAIN, FontSize), new File("./a.png"), Input_String_realLength*(FontSize/2), FontSize+2);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -100,11 +121,5 @@ public class mainFrom extends JFrame {
 			}
 		});
 		contentPane.add(btnNewButton);
-		
-		shower = new JTextField();
-		shower.setFont(new Font("標楷體", Font.PLAIN, 12));
-		shower.setBounds(37, 179, 250, 95);
-		contentPane.add(shower);
-		shower.setColumns(10);
 	}
 }
