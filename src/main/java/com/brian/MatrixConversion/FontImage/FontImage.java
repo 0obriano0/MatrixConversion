@@ -22,9 +22,9 @@ public class FontImage implements IFontImage{
     	this.height = height;
     	ImageRGB = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);  
         Graphics g = ImageRGB.getGraphics();  
-        g.setClip(0, 0, width, height);  
+        g.setClip(0, 0, width, height);
         g.setColor(Color.white);  
-        g.fillRect(0, 0, width, height);// 先用黑色填充整张图片,也就是背景  
+        g.fillRect(0, 0, width, height);// 先用白色填充整张图片,也就是背景  
         g.setColor(Color.black);// 在换成黑色  
         g.setFont(font);// 设置画笔字体  
         /** 用于获得垂直居中y */  
