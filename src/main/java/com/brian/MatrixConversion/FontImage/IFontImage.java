@@ -7,12 +7,6 @@ import java.io.File;
 public interface IFontImage {
 	
 	/**
-	 * 拿取已經產生的圖片
-	 * @return 如果沒有資料會回傳 null
-	 */
-	BufferedImage getImage();
-	
-	/**
 	 * 以文字創建圖片，並修改此物件內的image檔緩存，以及回傳一個物件
 	 * @param str 字串
 	 * @param font 字體
@@ -33,5 +27,31 @@ public interface IFontImage {
 	 * @return 回傳是否成功
 	 * @throws Exception
 	 */
-	public boolean createImage(String str, Font font, File outFile, Integer width, Integer height) throws Exception ;
+	public boolean createImage(String str, Font font, File outFile, Integer width, Integer height) throws Exception;
+	
+	/**
+	 * 拿取已經產生的圖片
+	 * @return 如果沒有資料會回傳 null
+	 */
+	public BufferedImage getImage_RGB();
+	
+	/**
+	 * 拿取已經產生的圖片(灰階)
+	 * @return 如果沒有資料會回傳 null
+	 */
+	public BufferedImage getImage_GRAY();
+	
+	/**
+	 * 將灰階做二值化(數值以160做基準)
+	 * @return 如果沒有資料會回傳 null
+	 */
+	public BufferedImage getImage_Binarization();
+	
+	/**
+	 * 將灰階做二值化
+	 * @param num 參數
+	 * @return 如果沒有資料會回傳 null
+	 */
+	public BufferedImage getImage_Binarization(int num);
+	
 }

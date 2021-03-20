@@ -121,7 +121,7 @@ public class mainFrom extends JFrame {
 				shower.setText(shower.getText() + "Input_Srting real length = " + Input_String_realLength + "\n");
 				try {
 					FImage.createImage(Input_Srting, new Font((String) FontStyle.getSelectedItem(), Font.PLAIN, FontSize), new File("./a.png"), Input_String_realLength*(FontSize/2), FontSize);
-					ImageIcon imageIcon = new ImageIcon(FImage.getImage());
+					ImageIcon imageIcon = new ImageIcon(FImage.getImage_RGB());
 					imageShower.setIcon(imageIcon);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
