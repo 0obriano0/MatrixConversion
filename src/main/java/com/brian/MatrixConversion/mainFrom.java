@@ -9,9 +9,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.brian.MatrixConversion.tools.FontImage;
+import com.brian.MatrixConversion.FontImage.FontImage;
+import com.brian.MatrixConversion.tools.tools;
+
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -28,7 +31,9 @@ public class mainFrom extends JFrame {
 	private JTextField User_Text;
 	private JTextField Text_Font_Size;
 	private JLabel lblNewLabel_1;
-
+	
+	private FontImage FImage = new FontImage();
+	
 	/**
 	 * Launch the application.
 	 */
@@ -53,7 +58,7 @@ public class mainFrom extends JFrame {
 		setTitle("中文轉換");
 		setFont(new Font("微軟正黑體", Font.PLAIN, 12));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 343, 385);
+		setBounds(100, 100, 343, 505);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -97,18 +102,24 @@ public class mainFrom extends JFrame {
 		shower.setBounds(37, 179, 250, 97);
 		contentPane.add(shower);
 		
+		final JLabel imageShower = new JLabel("");
+		imageShower.setBounds(37, 354, 250, 86);
+		contentPane.add(imageShower);
+		
 		JButton btnNewButton = new JButton("生圖");
 		btnNewButton.setBounds(94, 302, 141, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String Input_Srting = User_Text.getText();
-				int Input_String_realLength = FontImage.getRealLength(Input_Srting);
+				int Input_String_realLength = tools.getRealLength(Input_Srting);
 				int FontSize = Integer.valueOf(Text_Font_Size.getText());
 				shower.setText(shower.getText() + "FontSize = " + FontSize + "\n");
 				shower.setText(shower.getText() + "Input_Srting length = " + Input_Srting.length() + "\n");
 				shower.setText(shower.getText() + "Input_Srting real length = " + Input_String_realLength + "\n");
 				try {
-					FontImage.createImage(Input_Srting, new Font((String) FontStyle.getSelectedItem(), Font.PLAIN, FontSize), new File("./a.png"), Input_String_realLength*(FontSize/2), FontSize+2);
+					FImage.createImage(Input_Srting, new Font((String) FontStyle.getSelectedItem(), Font.PLAIN, FontSize), new File("./a.png"), Input_String_realLength*(FontSize/2), FontSize);
+					ImageIcon imageIcon = new ImageIcon(FImage.getImage());
+					imageShower.setIcon(imageIcon);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -116,5 +127,6 @@ public class mainFrom extends JFrame {
 			}
 		});
 		contentPane.add(btnNewButton);
+
 	}
 }
