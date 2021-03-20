@@ -1,6 +1,5 @@
 package com.brian.MatrixConversion;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -16,13 +15,15 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.DropMode;
 import javax.swing.JComboBox;
-import javax.swing.JTextPane;
 import javax.swing.JTextArea;
 
 public class mainFrom extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField User_Text;
 	private JTextField Text_Font_Size;
@@ -43,12 +44,6 @@ public class mainFrom extends JFrame {
 			}
 		});
 		System.out.println( "Hello World!" );
-//		try {
-//			FontImage.createImage("请在这里输入文字", new Font("微软雅黑", Font.PLAIN, 32), new File("./a.png"), 500, 64);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 
 	/**
@@ -84,14 +79,14 @@ public class mainFrom extends JFrame {
 		lblNewLabel_1.setBounds(37, 90, 73, 15);
 		contentPane.add(lblNewLabel_1);
 		
-		final JComboBox FontStyle = new JComboBox();
+		final JComboBox<String> FontStyle = new JComboBox<String>();
 		FontStyle.setBounds(119, 136, 168, 25);
 		GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	    String[] fontNames = e.getAvailableFontFamilyNames();
 	    for (String fontName : fontNames) {
 	    	FontStyle.addItem(fontName);
 	    }
-		
+	    FontStyle.setSelectedItem("新細明體");
 		contentPane.add(FontStyle);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("字體");
