@@ -63,7 +63,7 @@ public class FontImage {
         }  
         g.dispose();  
         ImageIO.write(image, "png", outFile);// 输出png图片  
-    }  
+    }   
     
     public static int getRealLength(String str) {
 		int m = 0;
