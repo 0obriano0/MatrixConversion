@@ -10,14 +10,16 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-public class FontImage implements IFontImage{
-	private BufferedImage ImageRGB = null;
-	private BufferedImage ImageGRAY = null;
-	private Integer width = 0;
-	private Integer height = 0;
+import com.brian.MatrixConversion.tools.tools;
+
+public class FontImage extends Image implements IFontImage {
+	protected Font font = null;
+	protected String str = null;
 	
-    public  BufferedImage createImage(String str, Font font, Integer width, Integer height) throws Exception {  
+	public  BufferedImage createImage(String str, Font font, Integer width, Integer height) throws Exception {  
         // 创建图片  
+		this.str = str;
+		this.font = font;
     	this.width = width;
     	this.height = height;
     	ImageRGB = new BufferedImage(width, height,BufferedImage.TYPE_INT_RGB);  
@@ -46,99 +48,47 @@ public class FontImage implements IFontImage{
     	ImageRGB = createImage(str,font,width,height);
         return ImageIO.write(ImageRGB, "png", outFile);// 输出png图片  
     }
-
-	public BufferedImage getImage_RGB() {
-		return ImageRGB;
-	}
-	
-	public BufferedImage getImage_GRAY() {
-		if(ImageRGB != null) {
-			ImageGRAY = new BufferedImage(width, height,BufferedImage.TYPE_BYTE_GRAY);
-			int[][] gray=new int[width][height];
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					gray[x][y]=getGray(ImageRGB.getRGB(x, y));
+    
+	public String getcode(ShowModeType mode) {
+		if(this.ImageRGB != null && this.str != null) {
+			if (mode.equals(ShowModeType.Horizontal_LEFT)) {
+				BufferedImage image;
+				try {
+					image = this.getImage_binary();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return null;
 				}
-			}
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					ImageGRAY.setRGB(x, y, getAverageColor(gray, x, y, width, height));
-				}
-			}
-		}else {
-			return null;
-		}
-		return ImageGRAY;
-	}
-
-	private int getGray(int rgb) {
-		String str=Integer.toHexString(rgb);
-		
-		int r=Integer.parseInt(str.substring(2,4),16);
-		int g=Integer.parseInt(str.substring(4,6),16);
-		int b=Integer.parseInt(str.substring(6,8),16);
-		
-		//or 直接new個color物件
-		Color c=new Color(rgb);
-		
-		r=c.getRed();
-	    g=c.getGreen();
-		b=c.getBlue();
-		
-		int top=(r+g+b)/3;
-		return (int)(top);
-	}
-	
-	/**
-	 * 自己加周圍8個灰度值再除以9，算出其相對灰度值
-	 * @param gray
-	 * @param x
-	 * @param y
-	 * @param w
-	 * @param h
-	 * @return
-	 */
-	private static int  getAverageColor(int[][] gray, int x, int y, int w, int h)
-    {
-        int rs = gray[x][y]
-              	+ (x == 0 ? 255 : gray[x - 1][y])
-	            + (x == 0 || y == 0 ? 255 : gray[x - 1][y - 1])
-	            + (x == 0 || y == h - 1 ? 255 : gray[x - 1][y + 1])
-	            + (y == 0 ? 255 : gray[x][y - 1])
-	            + (y == h - 1 ? 255 : gray[x][y + 1])
-	            + (x == w - 1 ? 255 : gray[x + 1][ y])
-	            + (x == w - 1 || y == 0 ? 255 : gray[x + 1][y - 1])
-	            + (x == w - 1 || y == h - 1 ? 255 : gray[x + 1][y + 1]);
-        return rs / 9;
-    }
-
-	public BufferedImage getImage_Binarization() {
-		return getImage_Binarization(160);
-	}
-
-	public BufferedImage getImage_Binarization(int num) {
-		if(ImageRGB != null) {
-			ImageGRAY = new BufferedImage(width, height,BufferedImage.TYPE_BYTE_BINARY);
-			int[][] gray=new int[width][height];
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					gray[x][y]=getGray(ImageRGB.getRGB(x, y));
-				}
-			}
-			for (int x = 0; x < width; x++) {
-				for (int y = 0; y < height; y++) {
-					if(getAverageColor(gray, x, y, width, height)>num){
-						int max=new Color(255,255,255).getRGB();
-						ImageGRAY.setRGB(x, y, max);
-					}else{
-						int min=new Color(0,0,0).getRGB();
-						ImageGRAY.setRGB(x, y, min);
+				
+				int white = new Color(0,0,0).getRGB();
+				String allStr = "";
+				
+				for(int StrIndex = 0;StrIndex < str.length();StrIndex++) {
+					String strdata = "//取模文字\"" + str.charAt(StrIndex) + "\" \n";
+					for(int y = 0;y < font.getSize();y++) {
+						byte codebuffer = 0;
+						for(int x = 0;x < font.getSize();x++) {
+							if(image.getRGB(x+StrIndex*font.getSize(), y) == white)
+								codebuffer = (byte) (codebuffer<<1|0x01);
+							else
+								codebuffer = (byte) (codebuffer<<1|0x00);
+							
+							if((x+1)%8 == 0) {
+								strdata = strdata + ((x==0)?"":",") +"0x" + tools.byteToHex(codebuffer);
+								codebuffer = 0;
+							}
+						}
+						strdata = strdata + (((y+1)*2)%16 == 0?"\n":"") ;
 					}
+					allStr = allStr + "\n" + strdata;
 				}
+				
+				System.out.println(allStr);
+				
 			}
-		}else {
-			return null;
 		}
-		return ImageGRAY;
+		
+		return null;
 	}
 }

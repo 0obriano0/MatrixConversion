@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import com.brian.MatrixConversion.FontImage.FontImage;
+import com.brian.MatrixConversion.FontImage.ShowModeType;
 import com.brian.MatrixConversion.tools.tools;
 
 import javax.swing.JLabel;
@@ -34,6 +35,8 @@ public class mainFrom extends JFrame {
 	private JComboBox<String> FontStyle;
 	private JTextArea shower;
 	private JLabel imageShower;
+	
+	Byte num = 0;
 	
 	private FontImage FImage = new FontImage();
 	
@@ -121,8 +124,9 @@ public class mainFrom extends JFrame {
 				shower.setText(shower.getText() + "Input_Srting real length = " + Input_String_realLength + "\n");
 				try {
 					FImage.createImage(Input_Srting, new Font((String) FontStyle.getSelectedItem(), Font.PLAIN, FontSize), new File("./a.png"), Input_String_realLength*(FontSize/2), FontSize);
-					ImageIcon imageIcon = new ImageIcon(FImage.getImage_RGB());
+					ImageIcon imageIcon = new ImageIcon(FImage.getImage_GRAY());
 					imageShower.setIcon(imageIcon);
+					FImage.getcode(ShowModeType.Horizontal_LEFT);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
