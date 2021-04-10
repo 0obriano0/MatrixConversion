@@ -23,13 +23,14 @@ public class ResponseHandler extends AbstractHandler {
         response.setHeader("Access-Control-Allow-Methods", "GET");
 
         response.setStatus(HttpServletResponse.SC_OK);
-
+        
     	if(s.equals("")) {
     		
     	}else {
     		System.out.println("接收到莫名的資訊");
     		System.out.println("s = " + s);
     		System.out.println("httpServletRequest.toString() = " + httpServletRequest.toString());
+    		
     	}
         
     	baseRequest.setHandled(true);

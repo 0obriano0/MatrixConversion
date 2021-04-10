@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import com.brian.MatrixConversion.CentralManagementSystem.CMS;
 import com.brian.MatrixConversion.FontImage.FontImage;
 import com.brian.MatrixConversion.FontImage.ShowModeType;
 import com.brian.MatrixConversion.tools.tools;
@@ -21,6 +22,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
+import java.awt.Panel;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class mainFrom extends JFrame {
 
@@ -39,6 +45,9 @@ public class mainFrom extends JFrame {
 	Byte num = 0;
 	
 	private FontImage FImage = new FontImage();
+	private JTextField text_port;
+	private JButton web_Start;
+	private JButton web_Stop;
 	
 	/**
 	 * Launch the application.
@@ -64,7 +73,7 @@ public class mainFrom extends JFrame {
 		setTitle("中文轉換");
 		setFont(new Font("微軟正黑體", Font.PLAIN, 12));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 343, 505);
+		setBounds(100, 100, 665, 505);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -134,6 +143,58 @@ public class mainFrom extends JFrame {
 			}
 		});
 		contentPane.add(btnNewButton);
+		
+		Panel panel = new Panel();
+		panel.setBounds(341, 36, 298, 162);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		web_Start = new JButton("Start");
+		web_Start.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("伺服器開啟中...");
+				if(CMS.getwebserver().openWebServer(text_port.getText())) {
+					web_Start.setEnabled(false);
+					web_Stop.setEnabled(true);
+					text_port.setEditable(false);
+					System.out.println("伺服器開啟成功");
+				}
+				
+			}
+		});
+		web_Start.setEnabled(false);
+		web_Start.setBounds(20, 96, 94, 29);
+		panel.add(web_Start);
+		
+		web_Stop = new JButton("Stop");
+		web_Stop.setEnabled(false);
+		web_Stop.setBounds(178, 97, 94, 26);
+		panel.add(web_Stop);
+		
+		JLabel lblNewLabel_2 = new JLabel("Web Server");
+		lblNewLabel_2.setFont(new Font("新細明體", Font.PLAIN, 17));
+		lblNewLabel_2.setBounds(109, 10, 75, 29);
+		panel.add(lblNewLabel_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("port");
+		lblNewLabel_3.setFont(new Font("新細明體", Font.PLAIN, 15));
+		lblNewLabel_3.setBounds(81, 49, 33, 29);
+		panel.add(lblNewLabel_3);
+		
+		text_port = new JTextField();
+		text_port.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(text_port.getText().length() > 0)
+					web_Start.setEnabled(true);
+				else
+					web_Start.setEnabled(false);
+			}
+		});
+
+		text_port.setBounds(176, 54, 96, 21);
+		panel.add(text_port);
+		text_port.setColumns(10);
 
 	}
 }
